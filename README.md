@@ -30,3 +30,7 @@ Significant genes (FDR < 0.05):
 scripts/   → Analysis scripts (R, bash)
 results/   → SMR output files
 data/      → Intermediate processed files (raw data not included)
+
+## Manhattan Plot
+![SMR Manhattan Plot](results/ET_SMR_manhattan.png)
+
