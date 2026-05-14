@@ -12,29 +12,27 @@ smr <- data.frame(
 
 smr$CI_low  <- smr$b_SMR - 1.96 * smr$se_SMR
 smr$CI_high <- smr$b_SMR + 1.96 * smr$se_SMR
-smr$label   <- paste0(smr$Gene, "\n(", smr$Chr, ")")
 smr$Gene    <- factor(smr$Gene, levels=rev(c("LINC00323","AC107871.2","IFT172","NRBP1","KRTCAP3")))
-smr$label   <- factor(smr$label, levels=rev(levels(smr$Gene)))
-smr$direction <- ifelse(smr$b_SMR > 0, "Pozitif", "Negatif")
+smr$direction <- ifelse(smr$b_SMR > 0, "Positive", "Negative")
 
 p <- ggplot(smr, aes(x=b_SMR, y=Gene, color=direction)) +
   geom_vline(xintercept=0, linetype="dashed", color="#888888", linewidth=0.6) +
   geom_errorbarh(aes(xmin=CI_low, xmax=CI_high),
     height=0.25, linewidth=0.8) +
   geom_point(size=4, shape=18) +
-  scale_color_manual(values=c("Pozitif"="#D62728", "Negatif"="#2E75B6"),
-    name="Etki yonu") +
+  scale_color_manual(values=c("Positive"="#D62728", "Negative"="#2E75B6"),
+    name="Effect direction") +
   scale_y_discrete(labels=c(
-    "KRTCAP3"  = "KRTCAP3 (Chr2)",
-    "NRBP1"    = "NRBP1 (Chr2)",
-    "IFT172"   = "IFT172 (Chr2)",
+    "KRTCAP3"    = "KRTCAP3 (Chr2)",
+    "NRBP1"      = "NRBP1 (Chr2)",
+    "IFT172"     = "IFT172 (Chr2)",
     "AC107871.2" = "AC107871.2 (Chr15)",
-    "LINC00323" = "LINC00323 (Chr21)")) +
+    "LINC00323"  = "LINC00323 (Chr21)")) +
   labs(
-    title="eQTL-SMR — Anlamli Genler",
-    subtitle="BrainMeta eQTL | FDR < 0.05 | HEIDI > 0.05 | Hata cubugu: 95% CI",
-    x="SMR etki buyuklugu (b_SMR)",
-    y=NULL) +
+    title    = "eQTL-SMR Significant Genes — Essential Tremor",
+    subtitle = "BrainMeta eQTL | FDR < 0.05 | HEIDI > 0.05 | Error bars: 95% CI",
+    x        = "SMR effect size (b_SMR)",
+    y        = NULL) +
   theme_classic(base_size=13) +
   theme(
     panel.background=element_rect(fill="white", color=NA),
@@ -57,4 +55,4 @@ ggsave(file.path(out_dir, "smr_forest_ET.png"),
   plot=p, width=9, height=6, dpi=300, bg="white")
 ggsave(file.path(out_dir, "smr_forest_ET.pdf"),
   plot=p, width=9, height=6, device=cairo_pdf)
-cat("Forest plot kaydedildi!\n")
+cat("Forest plot saved!\n")
